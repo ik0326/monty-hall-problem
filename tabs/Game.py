@@ -5,6 +5,7 @@ from settings import *
 
 state = st.session_state
 
+
 def show_image(img_path: list):
     one, two, three = st.columns(3)
     with one:
@@ -31,6 +32,7 @@ def state_init():
     state['img_path_list'] = tmp_img_list
     state['win'] = 0
     state['lose'] = 0
+    state['analysis_list'] = []
 
 
 def re_state_init():
@@ -41,7 +43,7 @@ def re_state_init():
             tmp_img_list[i] = DUCK_IMG
         else:
             tmp_img_list[i] = DOOR_OPEN_IMG
-    state['step'] = -1
+    state['step'] = 0
     state['answer'] = answer
     state['selected'] = None
     state['img_path_list'] = tmp_img_list
@@ -67,6 +69,7 @@ def Game():
     if state['step'] == 0:
         img = [DOOR_IMG] * 3
         show_image(img)
+        state['step'] += 1
     elif state['step'] == 1:
         img = [DOOR_IMG] * 3
         if state['selected'] == state['answer']:
@@ -78,16 +81,15 @@ def Game():
             img[change] = DOOR_OPEN_IMG
         show_image(img)
         state['disabled'] = True
+        state['step'] += 1
     elif state['step'] == 2:
         show_image(state['img_path_list'])
         state['counter'] += 1
         if state['answer'] == state['selected']:
-            st.success('You Win!')
             state['win'] += 1
         else:
-            st.error('You Lose!')
             state['lose'] += 1
+        state['analysis_list'].append(state['win'] / state['counter'])
         re_state_init()
         st.button("Restart")
-
-    state['step'] += 1
+    st.markdown("## Count: {} Win: {} Lose: {}".format(state['counter'], state['win'], state['lose']))
