@@ -1,7 +1,7 @@
 import streamlit as st
 
-from Analysis import analysis
-from Game import Game
+from tabs.Analysis import analysis
+from tabs.Game import Game, state
 from Discription import description, title
 
 
