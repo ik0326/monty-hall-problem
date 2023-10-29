@@ -16,7 +16,10 @@ def analysis():
         st.markdown("# ←Please play the game first 🔥")
 
     st.write("Prediction Graph")
-    N = st.number_input("Number of times", 1, 10000, 100, on_change=re_state_init, help="Simulation times")
+    defaultNum = 100
+    if state['counter'] > 1:
+        defaultNum = state['counter']
+    N = st.number_input("Number of times", 1, 10000, defaultNum, on_change=re_state_init, help="Simulation times")
     guess_data_mt = []
     get_data = 0
     for i in range(1, N):
